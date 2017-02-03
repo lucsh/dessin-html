@@ -3199,6 +3199,7 @@ body
 .home-bg
 {
     background-image: url(../img/backgrounds/home-background-01.jpg);
+    background-position: bottom right;
 }
 
 /* 
