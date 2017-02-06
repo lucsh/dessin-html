@@ -1,5 +1,13 @@
 // /*global $:false */
 // /*global moment:true */
+var isMobile;
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    isMobile = true;
+    $("html").addClass("mobile");
+} else {
+    isMobile = false;
+    $("html").addClass("no-mobile");
+}
 (function($) {
 
     "use strict";
