@@ -44,7 +44,7 @@ body
 {
     color: #0c0c17;
     overflow-x: hidden;
-    font: 200 14px/21px 'Lato', sans-serif, Helvetica, Arial, sans-serif;
+    font: 300 14px/21px 'Lato', sans-serif, Helvetica, Arial, sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
@@ -1105,7 +1105,7 @@ hr
     margin-top: 0;
     font-size: 21px;
     line-height: 1.2;
-    font-weight: 100;
+    font-weight: 300;
     text-transform: uppercase;
 }
 
