@@ -670,6 +670,19 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             // -------------------------------------
             // map opener
             // -------------------------------------
+            var noPOILabels = [
+                { 
+                  featureType: "poi", 
+                  elementType: "labels", 
+                  stylers: [ { visibility: "off" } ] 
+
+                }
+              ];
+            // Create a new StyledMapType object, passing it the array of styles,
+            // as well as the name to be displayed on the map type control.
+            var noPOIMapType = new google.maps.StyledMapType(noPOILabels,
+             {name: "NO POI"});
+
             var $mapOpener = $("#map-opener"),
                 $mapSection = $("#map-section");
             $mapOpener.on("click", function() {
@@ -684,7 +697,8 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
                 // markerLatitude = 40.679418,
                 // markerLongitude = -73.886275,
                 // First marker popup structure and content 
-                firstContentString = "<div class='gmap-popup'>" + "<h4>" + "Our primary office" + "</h4>" + "<p>" + "Your notes sits here!" + "</p>" + "</div>";
+                //firstContentString = "<div class='gmap-popup'>" + "<h4>" + "Our primary office" + "</h4>" + "<p>" + "Your notes sits here!" + "</p>" + "</div>";
+                firstContentString = "<p>" +"Independencia 889, 8300, Neuquén Capital" + "</p>";
             // // Second marker position
             // secondMarkerLatitude = 40.68000,
             // secondMarkerLongitude = -73.901525,
@@ -795,10 +809,11 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
                         zoomControl: false,
                         mapTypeControl: false,
                         streetViewControl: false,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'no_poi'],
                         scrollwheel: false,
                         tilt: 45, // Color Styles
-                        styles: mapStyles
+                        styles: mapStyles,
+                        clickableIcons:false
                     };
                     //inizialize the map
                     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -811,9 +826,9 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
                     var firstInfowindow = new google.maps.InfoWindow({
                         content: firstContentString
                     });
-                    google.maps.event.addListener(marker, "click", function() {
-                        firstInfowindow.open(map, marker);
-                    });
+                    //google.maps.event.addListener(marker, "click", function() {
+                        //firstInfowindow.open(map, marker);
+                    //});
                     var zoomControlDiv = document.createElement("div");
                     var zoomControl = new CustomZoomControl(zoomControlDiv, map);
                     //insert the zoom div on the top left of the map
