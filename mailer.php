@@ -2,8 +2,9 @@
     // My modifications to mailer script from:
     // http://blog.teamtreehouse.com/create-ajax-contact-form
     // Added input sanitizing to prevent injection
+    // Added hidden input field to prevent SPAM
 
-    // Only process POST reqeusts.
+    // Only process POST reqeusts and verify if field is empty.
     if (($_SERVER["REQUEST_METHOD"] == "POST") && empty($_POST['direccion'])) {
         // Get the form fields and remove whitespace.
         $name = strip_tags(trim($_POST["name"]));
@@ -61,7 +62,9 @@
             echo "Algo pasó y no pudimos enviar tu mensaje.";
         }
 
-            //Slack 
+            //Slack
+
+            //JSON  
             $text = "Email: " . $email . "\n\n" .$message;
             $room = "contacto"; 
             $data = "payload=" . json_encode(array(  
@@ -71,7 +74,8 @@
                     "icon_url"      => "http://dessin.com.ar/slack-contacto.png"
                 ));
             $url = 'https://hooks.slack.com/services/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';
-                     
+             
+             //Anti SPAM        
              if (!stripos($message, "viagra")){
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
@@ -93,11 +97,6 @@
         // Not a POST request, set a 403 (forbidden) response code.
         // http_response_code(403);
         echo "Ocurrio un problema con el envio. ¡Por favor, intentá de nuevo!";
-    }
-	
-	
-	
- 
-
-
+    }	
+    
 ?>
