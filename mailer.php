@@ -4,7 +4,7 @@
     // Added input sanitizing to prevent injection
 
     // Only process POST reqeusts.
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (($_SERVER["REQUEST_METHOD"] == "POST") && empty($_POST['direccion'])) {
         // Get the form fields and remove whitespace.
         $name = strip_tags(trim($_POST["name"]));
                 $name = str_replace(array("\r","\n"),array(" "," "),$name);
@@ -61,6 +61,34 @@
             echo "Algo pasó y no pudimos enviar tu mensaje.";
         }
 
+            //Slack 
+            $text = "Email: " . $email . "\n\n" .$message;
+            $room = "contacto"; 
+            $data = "payload=" . json_encode(array(  
+                    "username"      =>  $name ." - ". $company,       
+                    "channel"       =>  "#{$room}",
+                    "text"          =>  $text,
+                    "icon_url"      => "http://dessin.com.ar/slack-contacto.png"
+                ));
+            $url = 'https://hooks.slack.com/services/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';
+                     
+             if (!stripos($message, "viagra")){
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $result = curl_exec($ch);
+                //echo var_dump($result);
+                if($result === false)
+                {
+               //     echo 'Curl error: ' . curl_error($ch);
+                }
+                 
+                curl_close($ch);
+            }
+
     } else {
         // Not a POST request, set a 403 (forbidden) response code.
         // http_response_code(403);
@@ -69,32 +97,7 @@
 	
 	
 	
-    $text = "Email: " . $email . "\n\n" .$message;
-    $room = "contacto"; 
-    $data = "payload=" . json_encode(array(  
-            "username"      =>  $name ." - ". $company,       
-            "channel"       =>  "#{$room}",
-            "text"          =>  $text,
-            "icon_url"      => "http://dessin.com.ar/slack-contacto.png"
-        ));
-    $url = 'https://hooks.slack.com/services/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';
-             
-     if (!stripos($message, "viagra")){
-	    $ch = curl_init();
-	    curl_setopt($ch, CURLOPT_URL, $url);
-	    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-	    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	    $result = curl_exec($ch);
-	    //echo var_dump($result);
-	    if($result === false)
-	    {
-	   //     echo 'Curl error: ' . curl_error($ch);
-	    }
-	     
-	    curl_close($ch);
-	}
+ 
 
 
 ?>
